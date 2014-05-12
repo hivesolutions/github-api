@@ -19,6 +19,9 @@
 # You should have received a copy of the GNU General Public License
 # along with Hive GitHub API. If not, see <http://www.gnu.org/licenses/>.
 
+__author__ = "João Magalhães <joamag@hive.pt>"
+""" The author(s) of the module """
+
 __version__ = "1.0.0"
 """ The version of the module """
 
@@ -34,10 +37,8 @@ __copyright__ = "Copyright (c) 2008-2014 Hive Solutions Lda."
 __license__ = "GNU General Public License (GPL), Version 3"
 """ The license for the module """
 
-from . import base
-from . import repo
-from . import user
+from examples import base
 
-from .base import *
-from .repo import *
-from .user import *
+if __name__ == "__main__":
+    api = base.get_api()
+    print(api.get_repo("joamag", "pong"))
