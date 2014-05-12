@@ -41,4 +41,6 @@ from examples import base
 
 if __name__ == "__main__":
     api = base.get_api()
+    print(api.self_user())
     print(api.get_user("joamag"))
+    print(len(api.repos_user("joamag")))
