@@ -39,12 +39,16 @@ __license__ = "GNU General Public License (GPL), Version 3"
 
 import appier
 
+from github import org
+from github import repo
 from github import user
 
 API_DOMAIN = "api.github.com"
 
 class Api(
     appier.Api,
+    org.OrgApi,
+    repo.RepoApi,
     user.UserApi
 ):
 
