@@ -37,24 +37,9 @@ __copyright__ = "Copyright (c) 2008-2014 Hive Solutions Lda."
 __license__ = "GNU General Public License (GPL), Version 3"
 """ The license for the module """
 
-class UserApi(object):
+class OrgApi(object):
 
-    def get_user(self, username):
-        url = self.base_url + "users/%s" % username
-        contents = self.get(url)
-        return contents
-
-    def self_user(self):
-        url = self.base_url + "user"
-        contents = self.get(url)
-        return contents
-
-    def repos_user(self, username):
-        url = self.base_url + "users/%s/repos" % username
-        contents = self.get(url)
-        return contents
-
-    def orgs_user(self, username):
-        url = self.base_url + "users/%s/orgs" % username
+    def get_org(self, login):
+        url = self.base_url + "orgs/%s" % login
         contents = self.get(url)
         return contents
