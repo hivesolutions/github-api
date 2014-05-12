@@ -37,14 +37,9 @@ __copyright__ = "Copyright (c) 2008-2014 Hive Solutions Lda."
 __license__ = "GNU General Public License (GPL), Version 3"
 """ The license for the module """
 
-class OrgApi(object):
+from examples import base
 
-    def get_org(self, login):
-        url = self.base_url + "orgs/%s" % login
-        contents = self.get(url)
-        return contents
-
-    def repos_org(self, login):
-        url = self.base_url + "orgs/%s/repos" % login
-        contents = self.get(url)
-        return contents
+if __name__ == "__main__":
+    api = base.get_api()
+    print(api.get_org("hivesolutions"))
+    print(api.repos_org("hivesolutions"))
