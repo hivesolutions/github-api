@@ -39,7 +39,7 @@ __license__ = "GNU General Public License (GPL), Version 3"
 
 class RepoApi(object):
 
-    def get_repo(self, owner, repo):
+    def get_repo(self, owner, repo, type = "owner"):
         url = self.base_url + "repos/%s/%s" % (owner, repo)
-        contents = self.get(url)
+        contents = self.get(url, type = type)
         return contents
