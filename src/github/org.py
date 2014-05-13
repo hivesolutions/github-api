@@ -46,5 +46,5 @@ class OrgApi(object):
 
     def repos_org(self, login):
         url = self.base_url + "orgs/%s/repos" % login
-        contents = self.get(url)
+        contents = self.get_many(url)
         return contents
