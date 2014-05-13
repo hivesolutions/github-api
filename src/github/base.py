@@ -58,6 +58,16 @@ class Api(
         self.password = kwargs.get("password", None)
         self._build_url()
 
+    def get_many(self, url, **kwargs):
+        page = 1
+        result = []
+        while True:
+            items = self.get(url, page = page + 1, **kwargs)
+            if not items: break
+            result.extend(items)
+            page += 1
+        return result
+
     def get(self, url, **kwargs):
         return self.request(
             appier.get,

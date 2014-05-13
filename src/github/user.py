@@ -53,7 +53,7 @@ class UserApi(object):
         url = self.base_url + "users/%s/repos" % username
         contents = self.get(url)
         return contents
-    
+
     def self_repos(self):
         url = self.base_url + "user/repos"
         contents = self.get(url)
