@@ -39,13 +39,13 @@ import setuptools
 
 setuptools.setup(
     name = "github_api_python",
-    version = "0.1.0",
+    version = "0.1.1",
     author = "Hive Solutions Lda.",
     author_email = "development@hive.pt",
     description = "GitHub API",
     license = "GNU General Public License (GPL), Version 3",
     keywords = "github api",
-    url = "http://github.com",
+    url = "http://github_api.hive.pt",
     zip_safe = False,
     packages = [
         "github"
