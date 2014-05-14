@@ -62,7 +62,7 @@ class Api(
         page = 1
         result = []
         while True:
-            items = self.get(url, page = page + 1, **kwargs)
+            items = self.get(url, page = page, **kwargs)
             if not items: break
             result.extend(items)
             page += 1
