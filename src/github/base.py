@@ -68,49 +68,6 @@ class Api(
             page += 1
         return result
 
-    def get(self, url, **kwargs):
-        return self.request(
-            appier.get,
-            url,
-            params = kwargs
-        )
-
-    def post(self, url, data = None, data_j = None, **kwargs):
-        return self.request(
-            appier.post,
-            url,
-            params = kwargs,
-            data = data,
-            data_j = data_j
-        )
-
-    def put(self, url, data = None, data_j = None, **kwargs):
-        return self.request(
-            appier.put,
-            url,
-            params = kwargs,
-            data = data,
-            data_j = data_j
-        )
-
-    def delete(self, url, **kwargs):
-        return self.request(
-            appier.delete,
-            url,
-            params = kwargs
-        )
-
-    def request(self, method, *args, **kwargs):
-        try:
-            result = method(*args, **kwargs)
-        except appier.exceptions.HTTPError as exception:
-            self.handle_error(exception)
-
-        return result
-
-    def handle_error(self, error):
-        raise
-
     def _build_url(self):
         if not self.username:
             raise appier.OperationalError(message = "No username provided")
