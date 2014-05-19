@@ -1,5 +1,7 @@
 *.pyc
 *.debug
 
+session.shelve*
+
 /dist/
 /src/github_api_python.egg-info/
