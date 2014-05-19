@@ -39,23 +39,54 @@ __license__ = "GNU General Public License (GPL), Version 3"
 
 import appier
 
-from github import org
+from github import orgs
 from github import repo
 from github import user
 
+DIRECT_MODE = 1
+""" The direct mode where a complete access is allowed
+to the client by providing the "normal" credentials to
+it and ensuring a complete authentication """
+
+OAUTH_MODE = 2
+""" The oauth client mode where the set of permissions
+(scope) is authorized on behalf on an already authenticated
+user using a web agent (recommended mode) """
+
+UNSET_MODE = 3
+""" The unset client mode for situations where the client
+exists but not enough information is provided to it so that
+it knows how to interact with the server side (detached client) """
+
 API_DOMAIN = "api.github.com"
+""" The base domain from which the connection with the service
+will be performed, this value will be used for the construction
+of the base url that is going to be used by the api """
+
+SCOPE = (
+    "user:email",
+)
+""" The list of permissions to be used to create the
+scope string for the oauth value """
 
 class Api(
-    appier.Api,
-    org.OrgApi,
+    appier.OAuth2Api,
+    orgs.OrgApi,
     repo.RepoApi,
     user.UserApi
 ):
 
     def __init__(self, *args, **kwargs):
-        appier.Api.__init__(self, *args, **kwargs)
+        appier.OAuth2Api.__init__(self, *args, **kwargs)
         self.username = kwargs.get("username", None)
         self.password = kwargs.get("password", None)
+        self.client_id = kwargs.get("client_id", None)
+        self.client_secret = kwargs.get("client_secret", None)
+        self.login_url = kwargs.get("login_url", "https://github.com/login/")
+        self.redirect_url = kwargs.get("redirect_url", None)
+        self.access_token = kwargs.get("access_token", None)
+        self.scope = kwargs.get("scope", SCOPE)
+        self.mode = kwargs.get("mode", None) or self._get_mode()
         self._build_url()
 
     def get_many(self, url, **kwargs):
@@ -68,7 +99,39 @@ class Api(
             page += 1
         return result
 
+    def oauth_authorize(self, state = None):
+        url = self.login_url + "oauth/authorize"
+        values = dict(
+            client_id = self.client_id,
+            redirect_uri = self.redirect_url,
+            response_type = "code",
+            scope = " ".join(self.scope)
+        )
+        if state: values["state"] = state
+        data = appier.urlencode(values)
+        url = url + "?" + data
+        return url
+
+    def oauth_access(self, code):
+        url = self.login_url + "oauth/access_token"
+        contents = self.post(
+            url,
+            auth = False,
+            token = False,
+            client_id = self.client_id,
+            client_secret = self.client_secret,
+            grant_type = "authorization_code",
+            redirect_uri = self.redirect_url,
+            code = code
+        )
+        contents = contents.decode("utf-8")
+        contents = appier.parse_qs(contents)
+        self.access_token = contents["access_token"][0]
+        self.trigger("access_token", self.access_token)
+        return self.access_token
+
     def _build_url(self):
+        if self.mode == OAUTH_MODE: self.base_url = "https://%s/" % API_DOMAIN; return
         if not self.username:
             raise appier.OperationalError(message = "No username provided")
         if not self.password:
@@ -78,3 +141,8 @@ class Api(
             self.password,
             API_DOMAIN
         )
+
+    def _get_mode(self):
+        if self.username and self.password: return DIRECT_MODE
+        elif self.client_id and self.client_secret: return OAUTH_MODE
+        return UNSET_MODE
