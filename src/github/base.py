@@ -128,6 +128,6 @@ class Api(
         )
 
     def _get_mode(self):
-        if self.username and self.password: return appier.OAuth2Api.DIRECT_MODE
-        elif self.client_id and self.client_secret: return appier.OAuth2Api.OAUTH_MODE
-        return appier.OAuth2Api.UNSET_MODE
+        if self.username and self.password: return appier.OAuthApi.DIRECT_MODE
+        elif self.client_id and self.client_secret: return appier.OAuthApi.OAUTH_MODE
+        return appier.OAuthApi.UNSET_MODE
