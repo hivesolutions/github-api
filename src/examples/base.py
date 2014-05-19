@@ -44,5 +44,7 @@ import github
 def get_api():
     return github.Api(
         username = appier.conf("GITHUB_USERNAME"),
-        password = appier.conf("GITHUB_PASSWORD")
+        password = appier.conf("GITHUB_PASSWORD"),
+        client_id = appier.conf("GITHUB_ID"),
+        client_secret = appier.conf("GITHUB_SECRET")
     )
