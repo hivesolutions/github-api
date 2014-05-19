@@ -46,5 +46,6 @@ def get_api():
         username = appier.conf("GITHUB_USERNAME"),
         password = appier.conf("GITHUB_PASSWORD"),
         client_id = appier.conf("GITHUB_ID"),
-        client_secret = appier.conf("GITHUB_SECRET")
+        client_secret = appier.conf("GITHUB_SECRET"),
+        redirect_url = appier.conf("GITHUB_REDIRECT_URL")
     )
