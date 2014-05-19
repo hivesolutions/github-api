@@ -43,21 +43,6 @@ from github import orgs
 from github import repo
 from github import user
 
-DIRECT_MODE = 1
-""" The direct mode where a complete access is allowed
-to the client by providing the "normal" credentials to
-it and ensuring a complete authentication """
-
-OAUTH_MODE = 2
-""" The oauth client mode where the set of permissions
-(scope) is authorized on behalf on an already authenticated
-user using a web agent (recommended mode) """
-
-UNSET_MODE = 3
-""" The unset client mode for situations where the client
-exists but not enough information is provided to it so that
-it knows how to interact with the server side (detached client) """
-
 API_DOMAIN = "api.github.com"
 """ The base domain from which the connection with the service
 will be performed, this value will be used for the construction
@@ -131,7 +116,7 @@ class Api(
         return self.access_token
 
     def _build_url(self):
-        if self.mode == OAUTH_MODE: self.base_url = "https://%s/" % API_DOMAIN; return
+        if self.is_oauth(): self.base_url = "https://%s/" % API_DOMAIN; return
         if not self.username:
             raise appier.OperationalError(message = "No username provided")
         if not self.password:
@@ -143,6 +128,6 @@ class Api(
         )
 
     def _get_mode(self):
-        if self.username and self.password: return DIRECT_MODE
-        elif self.client_id and self.client_secret: return OAUTH_MODE
-        return UNSET_MODE
+        if self.username and self.password: return appier.OAuth2Api.DIRECT_MODE
+        elif self.client_id and self.client_secret: return appier.OAuth2Api.OAUTH_MODE
+        return appier.OAuth2Api.UNSET_MODE
