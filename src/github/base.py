@@ -93,7 +93,7 @@ class Api(
             scope = " ".join(self.scope)
         )
         if state: values["state"] = state
-        data = appier.urlencode(values)
+        data = appier.legacy.urlencode(values)
         url = url + "?" + data
         return url
 
@@ -110,7 +110,7 @@ class Api(
             code = code
         )
         contents = contents.decode("utf-8")
-        contents = appier.parse_qs(contents)
+        contents = appier.legacy.parse_qs(contents)
         self.access_token = contents["access_token"][0]
         self.trigger("access_token", self.access_token)
         return self.access_token
