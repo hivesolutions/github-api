@@ -39,7 +39,7 @@ from . import orgs
 from . import repo
 from . import user
 
-from .base import *
-from .orgs import *
-from .repo import *
-from .user import *
+from .base import Api
+from .orgs import OrgApi
+from .repo import RepoApi
+from .user import UserApi

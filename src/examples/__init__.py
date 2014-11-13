@@ -40,8 +40,5 @@ from . import orgs
 from . import repo
 from . import user
 
-from .app import *
-from .base import *
-from .orgs import *
-from .repo import *
-from .user import *
+from .app import GithubApp
+from .base import get_api
