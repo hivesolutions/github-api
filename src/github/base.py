@@ -39,9 +39,9 @@ __license__ = "GNU General Public License (GPL), Version 3"
 
 import appier
 
-from github import orgs
-from github import repo
-from github import user
+from . import orgs
+from . import repo
+from . import user
 
 API_DOMAIN = "api.github.com"
 """ The base domain from which the connection with the service

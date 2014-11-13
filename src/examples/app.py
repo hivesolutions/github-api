@@ -39,7 +39,7 @@ __license__ = "GNU General Public License (GPL), Version 3"
 
 import appier
 
-from examples import base
+from . import base
 
 class GithubApp(appier.WebApp):
 
