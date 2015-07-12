@@ -39,12 +39,17 @@ __license__ = "GNU General Public License (GPL), Version 3"
 
 class OrgApi(object):
 
-    def get_org(self, login):
-        url = self.base_url + "orgs/%s" % login
+    def get_org(self, org):
+        url = self.base_url + "orgs/%s" % org
         contents = self.get(url)
         return contents
 
-    def repos_org(self, login):
-        url = self.base_url + "orgs/%s/repos" % login
+    def repos_org(self, org):
+        url = self.base_url + "orgs/%s/repos" % org
+        contents = self.get_many(url)
+        return contents
+
+    def members_org(self, org):
+        url = self.base_url + "orgs/%s/members" % org
         contents = self.get_many(url)
         return contents
