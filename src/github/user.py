@@ -51,12 +51,12 @@ class UserApi(object):
 
     def repos_user(self, username):
         url = self.base_url + "users/%s/repos" % username
-        contents = self.get(url)
+        contents = self.get_many(url)
         return contents
 
     def self_repos(self):
         url = self.base_url + "user/repos"
-        contents = self.get(url)
+        contents = self.get_many(url)
         return contents
 
     def orgs_user(self, username):
