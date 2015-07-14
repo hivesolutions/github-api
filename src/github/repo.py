@@ -53,3 +53,8 @@ class RepoApi(object):
         url = self.base_url + "repos/%s/%s/stats/commit_activity" % (owner, repo)
         contents = self.get(url)
         return contents
+
+    def stats_participation_repo(self, owner, repo):
+        url = self.base_url + "repos/%s/%s/stats/participation" % (owner, repo)
+        contents = self.get(url)
+        return contents
