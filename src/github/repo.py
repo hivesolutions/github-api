@@ -44,6 +44,11 @@ class RepoApi(object):
         contents = self.get(url, type = type)
         return contents
 
+    def issues_repo(self, owner, repo):
+        url = self.base_url + "repos/%s/%s/issues" % (owner, repo)
+        contents = self.get_many(url)
+        return contents
+
     def stats_contrib_repo(self, owner, repo):
         url = self.base_url + "repos/%s/%s/stats/contributors" % (owner, repo)
         contents = self.get(url)
