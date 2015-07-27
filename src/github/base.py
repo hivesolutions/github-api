@@ -97,7 +97,7 @@ class Api(
             contents, file = self.get(url, handle = True, **kwargs)
             code = file.getcode()
             if not code == 202: break
-            if not retries == 0: break
+            if not retries > 0: break
             time.sleep(sleep)
         return contents
 
