@@ -37,6 +37,8 @@ __copyright__ = "Copyright (c) 2008-2015 Hive Solutions Lda."
 __license__ = "GNU General Public License (GPL), Version 3"
 """ The license for the module """
 
+import time
+
 import appier
 
 from . import orgs
@@ -88,6 +90,16 @@ class Api(
             result.extend(items)
             page += 1
         return result
+
+    def get_cached(self, url, retries = 5, sleep = 1.0, **kwargs):
+        while True:
+            retries -= 1
+            contents, file = self.get(url, handle = True, **kwargs)
+            code = file.getcode()
+            if not code == 202: break
+            if not retries == 0: break
+            time.sleep(sleep)
+        return contents
 
     def oauth_authorize(self, state = None):
         url = self.login_url + "oauth/authorize"

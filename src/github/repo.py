@@ -51,15 +51,15 @@ class RepoApi(object):
 
     def stats_contrib_repo(self, owner, repo):
         url = self.base_url + "repos/%s/%s/stats/contributors" % (owner, repo)
-        contents = self.get(url)
+        contents = self.get_cached(url)
         return contents
 
     def stats_activity_repo(self, owner, repo):
         url = self.base_url + "repos/%s/%s/stats/commit_activity" % (owner, repo)
-        contents = self.get(url)
+        contents = self.get_cached(url)
         return contents
 
     def stats_participation_repo(self, owner, repo):
         url = self.base_url + "repos/%s/%s/stats/participation" % (owner, repo)
-        contents = self.get(url)
+        contents = self.get_cached(url)
         return contents
