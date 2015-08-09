@@ -45,7 +45,7 @@ setuptools.setup(
     version = "0.1.6",
     author = "Hive Solutions Lda.",
     author_email = "development@hive.pt",
-    description = "GitHub API",
+    description = "GitHub API Client",
     license = "GNU General Public License (GPL), Version 3",
     keywords = "github api",
     url = "http://github_api.hive.pt",
