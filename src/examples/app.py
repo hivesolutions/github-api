@@ -43,8 +43,12 @@ from . import base
 
 class GithubApp(appier.WebApp):
 
-    def __init__(self):
-        appier.WebApp.__init__(self, name = "github")
+    def __init__(self, *args, **kwargs):
+        appier.WebApp.__init__(
+            self,
+            name = "github",
+            *args, **kwargs
+        )
 
     @appier.route("/", "GET")
     def index(self):
