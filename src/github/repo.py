@@ -63,3 +63,8 @@ class RepoApi(object):
         url = self.base_url + "repos/%s/%s/stats/participation" % (owner, repo)
         contents = self.get_cached(url)
         return contents
+
+    def contents_repo(self, owner, repo, path, ref = None):
+        url = self.base_url + "repos/%s/%s/contents/%s" % (owner, repo, path)
+        contents = self.get(url, ref = ref)
+        return contents
