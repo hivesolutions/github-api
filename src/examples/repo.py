@@ -41,6 +41,6 @@ from . import base
 
 if __name__ == "__main__":
     api = base.get_api()
-    print(api.get_repo("joamag", "pong"))
-    print(api.contents_repo("joamag", "pong", "readme.md"))
+    print(api.get_repo("hivesolutions", "appier"))
+    print(api.contents_repo("hivesolutions", "appier", "readme.md"))
     print(api.issue_repo("hivesolutions", "appier", 2))
