@@ -44,3 +44,14 @@ if __name__ == "__main__":
     print(api.get_repo("hivesolutions", "appier"))
     print(api.contents_repo("hivesolutions", "appier", "readme.md"))
     print(api.issue_repo("hivesolutions", "appier", 2))
+    issue = api.create_issue("rui-castro", "github_api", dict(
+        title = "Test issue",
+        body = "## Description\n\nThis is an issue created using github_api",
+        assignee = "rui-castro",
+        labels = ["bug", "invalid"],
+        state = "closed"
+    ))
+    print(issue)
+    print(api.update_issue("rui-castro", "github_api", issue["number"], dict(
+        state = "closed"
+    )))
