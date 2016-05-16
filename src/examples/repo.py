@@ -48,8 +48,7 @@ if __name__ == "__main__":
         title = "Test issue",
         body = "## Description\n\nThis is an issue created using github_api",
         assignee = "rui-castro",
-        labels = ["bug", "invalid"],
-        state = "closed"
+        labels = ["bug", "invalid"]
     ))
     print(issue)
     print(api.update_issue("rui-castro", "github_api", issue["number"], dict(
