@@ -73,3 +73,13 @@ class RepoApi(object):
         url = self.base_url + "repos/%s/%s/issues/%s" % (owner, repo, number)
         contents = self.get_cached(url)
         return contents
+
+    def create_issue(self, owner, repo, issue):
+        url = self.base_url + "repos/%s/%s/issues" % (owner, repo)
+        contents = self.post(url, data_j = issue)
+        return contents
+
+    def update_issue(self, owner, repo, number, issue):
+        url = self.base_url + "repos/%s/%s/issues/%s" % (owner, repo, number)
+        contents = self.patch(url, data_j = issue)
+        return contents
