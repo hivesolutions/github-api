@@ -43,3 +43,5 @@ if __name__ == "__main__":
     api = base.get_api()
     print(api.get_org("hivesolutions"))
     print(api.repos_org("hivesolutions"))
+else:
+    __path__ = []

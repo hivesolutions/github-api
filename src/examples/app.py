@@ -94,3 +94,5 @@ class GithubApp(appier.WebApp):
 if __name__ == "__main__":
     app = GithubApp()
     app.serve()
+else:
+    __path__ = []

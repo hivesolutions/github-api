@@ -44,3 +44,5 @@ if __name__ == "__main__":
     print(api.self_user())
     print(api.get_user("joamag"))
     print(len(api.repos_user("joamag")))
+else:
+    __path__ = []

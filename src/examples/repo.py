@@ -44,3 +44,5 @@ if __name__ == "__main__":
     print(api.get_repo("hivesolutions", "appier"))
     print(api.contents_repo("hivesolutions", "appier", "README.md"))
     print(api.issue_repo("hivesolutions", "appier", 2))
+else:
+    __path__ = []
