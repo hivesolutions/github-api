@@ -48,7 +48,7 @@ setuptools.setup(
     description = "GitHub API Client",
     license = "Apache License, Version 2.0",
     keywords = "github api",
-    url = "http://github_api.hive.pt",
+    url = "http://github-api.hive.pt",
     zip_safe = False,
     packages = [
         "github"
