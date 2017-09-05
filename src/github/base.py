@@ -56,15 +56,15 @@ SCOPE = (
 """ The list of permissions to be used to create the
 scope string for the oauth value """
 
-class Api(
-    appier.OAuth2Api,
-    orgs.OrgApi,
-    repo.RepoApi,
-    user.UserApi
+class API(
+    appier.OAuth2API,
+    orgs.OrgAPI,
+    repo.RepoAPI,
+    user.UserAPI
 ):
 
     def __init__(self, *args, **kwargs):
-        appier.OAuth2Api.__init__(self, *args, **kwargs)
+        appier.OAuth2API.__init__(self, *args, **kwargs)
         self.username = appier.conf("GITHUB_USERNAME", None)
         self.password = appier.conf("GITHUB_PASSWORD", None)
         self.client_id = appier.conf("GITHUB_ID", None)
@@ -145,6 +145,6 @@ class Api(
         )
 
     def _get_mode(self):
-        if self.username and self.password: return appier.OAuthApi.DIRECT_MODE
-        elif self.client_id and self.client_secret: return appier.OAuthApi.OAUTH_MODE
-        return appier.OAuthApi.UNSET_MODE
+        if self.username and self.password: return appier.OAuthAPI.DIRECT_MODE
+        elif self.client_id and self.client_secret: return appier.OAuthAPI.OAUTH_MODE
+        return appier.OAuthAPI.UNSET_MODE
