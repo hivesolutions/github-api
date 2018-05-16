@@ -2,6 +2,14 @@
 
 Standard GitHub API implementation in python.
 
+## Configuration
+
+* `GITHUB_USERNAME` (`str`) - The username to be in the authentication with the GitHub API (defaults to `None`)
+* `GITHUB_PASSWORD` (`str`) - The password to be in the authentication with the GitHub API (defaults to `None`)
+* `GITHUB_ID` (`str`) - While using OAuth provides a way to defined the client identifier (defaults to `None`)
+* `GITHUB_SECRET` (`str`) - While using OAuth provides a way to defined the client secret (defaults to `None`)
+* `GITHUB_REDIRECT_URL` (`str`) - To be used in the OAuth process as the target redirect URL (defaults to `None`)
+
 ## License
 
 GitHub API is currently licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/).
