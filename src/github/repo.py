@@ -73,6 +73,16 @@ class RepoAPI(object):
         url = self.base_url + "repos/%s/%s/issues/%s" % (owner, repo, number)
         contents = self.get_cached(url)
         return contents
+    
+    def events_issue_repo(self, owner, repo, number):
+        url = self.base_url + "repos/%s/%s/issues/%s/events" % (owner, repo, number)
+        contents = self.get_cached(url)
+        return contents
+
+    def event_issue_repo(self, owner, repo, number):
+        url = self.base_url + "repos/%s/%s/issues/events/%s" % (owner, repo, number)
+        contents = self.get_cached(url)
+        return contents
 
     def create_issue(self, owner, repo, issue):
         url = self.base_url + "repos/%s/%s/issues" % (owner, repo)
