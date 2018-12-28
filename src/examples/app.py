@@ -62,9 +62,19 @@ class GithubApp(appier.WebApp):
         user = api.self_user()
         return user
 
+    @appier.route("/logout", "GET")
+    def logout(self):
+        return self.oauth_error(None)
+
     @appier.route("/oauth", "GET")
     def oauth(self):
         code = self.field("code")
+        error = self.field("error")
+        appier.verify(
+            not error,
+            message = "Invalid OAuth response (%s)" % error,
+            exception = appier.OperationalError
+        )
         api = self.get_api()
         access_token = api.oauth_access(code)
         self.session["gh.access_token"] = access_token
