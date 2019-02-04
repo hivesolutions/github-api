@@ -37,6 +37,10 @@ __copyright__ = "Copyright (c) 2008-2019 Hive Solutions Lda."
 __license__ = "Apache License, Version 2.0"
 """ The license for the module """
 
+import base64
+
+import appier
+
 class RepoAPI(object):
 
     def get_repo(self, owner, repo, type = "owner"):
@@ -69,6 +73,21 @@ class RepoAPI(object):
         contents = self.get_cached(url, ref = ref)
         return contents
 
+    def create_contents_repo(
+        self,
+        owner,
+        repo,
+        path,
+        content,
+        message = None
+    ):
+        message = message or "Created %s" % path
+        content = appier.legacy.bytes(content)
+        content_b64 = base64.b64encode(content)
+        url = self.base_url + "repos/%s/%s/contents/%s" % (owner, repo, path)
+        contents = self.put(url, data_j = dict(message = message, content = content_b64))
+        return contents
+
     def issue_repo(self, owner, repo, number):
         url = self.base_url + "repos/%s/%s/issues/%s" % (owner, repo, number)
         contents = self.get_cached(url)
@@ -84,12 +103,12 @@ class RepoAPI(object):
         contents = self.get_cached(url)
         return contents
 
-    def create_issue(self, owner, repo, issue):
+    def create_issue_repo(self, owner, repo, issue):
         url = self.base_url + "repos/%s/%s/issues" % (owner, repo)
         contents = self.post(url, data_j = issue)
         return contents
 
-    def update_issue(self, owner, repo, number, issue):
+    def update_issue_repo(self, owner, repo, number, issue):
         url = self.base_url + "repos/%s/%s/issues/%s" % (owner, repo, number)
         contents = self.patch(url, data_j = issue)
         return contents
