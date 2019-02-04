@@ -88,6 +88,7 @@ class RepoAPI(object):
         message = message or "%s '%s' file" % ("Updated" if sha else "Created", path)
         content = appier.legacy.bytes(content)
         content_b64 = base64.b64encode(content)
+        content_b64 = appier.legacy.str(content_b64)
         data_j = dict(message = message, content = content_b64)
         if sha: data_j["sha"] = sha
         if branch: data_j["branch"] = branch
