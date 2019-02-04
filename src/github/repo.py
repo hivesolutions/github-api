@@ -80,14 +80,16 @@ class RepoAPI(object):
         path,
         content,
         message = None,
+        sha = None,
         branch = None,
         committer = None,
         author = None
     ):
-        message = message or "Created %s" % path
+        message = message or "%s '%s' file" % ("Updated" if sha else "Created", path)
         content = appier.legacy.bytes(content)
         content_b64 = base64.b64encode(content)
         data_j = dict(message = message, content = content_b64)
+        if sha: data_j["sha"] = sha
         if branch: data_j["branch"] = branch
         if committer: data_j["committer"] = committer
         if author: data_j["author"] = author
