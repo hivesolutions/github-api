@@ -79,13 +79,20 @@ class RepoAPI(object):
         repo,
         path,
         content,
-        message = None
+        message = None,
+        branch = None,
+        committer = None,
+        author = None
     ):
         message = message or "Created %s" % path
         content = appier.legacy.bytes(content)
         content_b64 = base64.b64encode(content)
+        data_j = dict(message = message, content = content_b64)
+        if branch: data_j["branch"] = branch
+        if committer: data_j["committer"] = committer
+        if author: data_j["author"] = author
         url = self.base_url + "repos/%s/%s/contents/%s" % (owner, repo, path)
-        contents = self.put(url, data_j = dict(message = message, content = content_b64))
+        contents = self.put(url, data_j = data_j)
         return contents
 
     def issue_repo(self, owner, repo, number):
