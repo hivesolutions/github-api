@@ -19,6 +19,9 @@
 # You should have received a copy of the Apache License along with
 # Hive GitHub API. If not, see <http://www.apache.org/licenses/>.
 
+__author__ = "Hugo Gomes <hugo@hugogomes.eu>"
+""" The author(s) of the module """
+
 __version__ = "1.0.0"
 """ The version of the module """
 
@@ -35,13 +38,9 @@ __license__ = "Apache License, Version 2.0"
 """ The license for the module """
 
 from . import base
-from . import orgs
-from . import repo
-from . import search
-from . import user
 
-from .base import API_DOMAIN, SCOPE, API
-from .orgs import OrgAPI
-from .repo import RepoAPI
-from .search import SearchAPI
-from .user import UserAPI
+if __name__ == "__main__":
+    api = base.get_api()
+    print(api.code_search("netius+repo:hivesolutions/appier"))
+else:
+    __path__ = []

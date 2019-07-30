@@ -43,6 +43,7 @@ import appier
 
 from . import orgs
 from . import repo
+from . import search
 from . import user
 
 API_DOMAIN = "api.github.com"
@@ -60,6 +61,7 @@ class API(
     appier.OAuth2API,
     orgs.OrgAPI,
     repo.RepoAPI,
+    search.SearchAPI,
     user.UserAPI
 ):
 
@@ -86,6 +88,7 @@ class API(
         result = []
         while True:
             items = self.get(url, page = page, **kwargs)
+            if isinstance(items, dict): items = items["items"]
             if not items: break
             result.extend(items)
             page += 1
