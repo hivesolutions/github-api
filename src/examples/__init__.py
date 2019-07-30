@@ -38,6 +38,7 @@ from . import app
 from . import base
 from . import orgs
 from . import repo
+from . import search
 from . import user
 
 from .app import GithubApp
