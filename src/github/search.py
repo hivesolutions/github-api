@@ -73,7 +73,7 @@ class SearchAPI(object):
         headers = {} if not text_match else {"Accept": "application/vnd.github.v3.text-match+json"}
         contents = self.get_many(url, headers = headers, **kwargs)
         return contents
-    
+
     def topics_search(self, query, text_match = False, *args, **kwargs):
         url = self.base_url + "search/topics"
         kwargs.update(q = query)
