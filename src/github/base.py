@@ -41,6 +41,7 @@ import time
 
 import appier
 
+from . import blob
 from . import orgs
 from . import repo
 from . import search
@@ -59,6 +60,7 @@ scope string for the oauth value """
 
 class API(
     appier.OAuth2API,
+    blob.BlobAPI,
     orgs.OrgAPI,
     repo.RepoAPI,
     search.SearchAPI,
