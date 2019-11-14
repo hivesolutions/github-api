@@ -41,8 +41,8 @@ from . import base
 
 if __name__ == "__main__":
     api = base.get_api()
-    print(api.get_repo("hivesolutions", "appier"))
+    #print(api.get_repo("hivesolutions", "appier"))
     print(api.contents_repo("hivesolutions", "appier", "README.md"))
-    print(api.issue_repo("hivesolutions", "appier", 2))
+    #print(api.issue_repo("hivesolutions", "appier", 2))
 else:
     __path__ = []

@@ -41,6 +41,5 @@ class BlobAPI(object):
 
     def get_blob(self, owner, repo, file_sha):
         url = self.base_url + "repos/%s/%s/git/blobs/%s" % (owner, repo, file_sha)
-        print(url)
         contents = self.get_cached(url)
         return contents
