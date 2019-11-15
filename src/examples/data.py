@@ -37,9 +37,10 @@ __copyright__ = "Copyright (c) 2008-2019 Hive Solutions Lda."
 __license__ = "Apache License, Version 2.0"
 """ The license for the module """
 
-class BlobAPI(object):
+from . import base
 
-    def get_blob(self, owner, repo, file_sha):
-        url = self.base_url + "repos/%s/%s/git/blobs/%s" % (owner, repo, file_sha)
-        contents = self.get_cached(url)
-        return contents
+if __name__ == "__main__":
+    api = base.get_api()
+    print(api.blobs_data("hivesolutions", "appier", "fe0c75cd7960bf177d2ed6aa478e188ee7a2db85"))
+else:
+    __path__ = []
