@@ -36,6 +36,7 @@ __license__ = "Apache License, Version 2.0"
 
 from . import app
 from . import base
+from . import blob
 from . import orgs
 from . import repo
 from . import search

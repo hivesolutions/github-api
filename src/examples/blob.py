@@ -19,7 +19,7 @@
 # You should have received a copy of the Apache License along with
 # Hive GitHub API. If not, see <http://www.apache.org/licenses/>.
 
-__author__ = "Hugo Gomes <hugo@hugogomes.eu>"
+__author__ = "João Magalhães <joamag@hive.pt> & Hugo Gomes <hugo@hugogomes.eu>"
 """ The author(s) of the module """
 
 __version__ = "1.0.0"
@@ -37,9 +37,10 @@ __copyright__ = "Copyright (c) 2008-2019 Hive Solutions Lda."
 __license__ = "Apache License, Version 2.0"
 """ The license for the module """
 
-class DataAPI(object):
+from . import base
 
-    def blobs_data(self, owner, repo, file_sha):
-        url = self.base_url + "repos/%s/%s/git/blobs/%s" % (owner, repo, file_sha)
-        contents = self.get_cached(url)
-        return contents
+if __name__ == "__main__":
+    api = base.get_api()
+    print(api.blobs_data("hivesolutions", "appier", "fe0c75cd7960bf177d2ed6aa478e188ee7a2db85"))
+else:
+    __path__ = []

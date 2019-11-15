@@ -41,11 +41,11 @@ import time
 
 import appier
 
-from . import data
+from . import blob
 from . import orgs
 from . import repo
-from . import search
 from . import user
+from . import search
 
 API_DOMAIN = "api.github.com"
 """ The base domain from which the connection with the service
@@ -60,11 +60,11 @@ scope string for the oauth value """
 
 class API(
     appier.OAuth2API,
-    data.DataAPI,
+    blob.BLOBAPI,
     orgs.OrgAPI,
     repo.RepoAPI,
+    user.UserAPI,
     search.SearchAPI,
-    user.UserAPI
 ):
 
     def __init__(self, *args, **kwargs):
