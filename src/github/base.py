@@ -50,7 +50,7 @@ from . import search
 API_DOMAIN = "api.github.com"
 """ The base domain from which the connection with the service
 will be performed, this value will be used for the construction
-of the base url that is going to be used by the api """
+of the base URL that is going to be used by the API """
 
 SCOPE = (
     "user:email",
