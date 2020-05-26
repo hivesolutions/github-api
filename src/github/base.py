@@ -74,13 +74,14 @@ class API(
         self.client_id = appier.conf("GITHUB_ID", None)
         self.client_secret = appier.conf("GITHUB_SECRET", None)
         self.redirect_url = appier.conf("GITHUB_REDIRECT_URL", None)
+        self.access_token = appier.conf("GITHUB_TOKEN", None)
         self.username = kwargs.get("username", self.username)
         self.password = kwargs.get("password", self.password)
         self.client_id = kwargs.get("client_id", self.client_id)
         self.client_secret = kwargs.get("client_secret", self.client_secret)
         self.login_url = kwargs.get("login_url", "https://github.com/login/")
         self.redirect_url = kwargs.get("redirect_url", self.redirect_url)
-        self.access_token = kwargs.get("access_token", None)
+        self.access_token = kwargs.get("access_token", self.access_token)
         self.scope = kwargs.get("scope", SCOPE)
         self.mode = kwargs.get("mode", None) or self._get_mode()
         self._build_url()
@@ -152,4 +153,5 @@ class API(
     def _get_mode(self):
         if self.username and self.password: return appier.OAuthAPI.DIRECT_MODE
         elif self.client_id and self.client_secret: return appier.OAuthAPI.OAUTH_MODE
+        elif self.access_token: return appier.OAuthAPI.OAUTH_MODE
         return appier.OAuthAPI.UNSET_MODE

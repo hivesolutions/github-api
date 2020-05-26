@@ -122,3 +122,23 @@ class RepoAPI(object):
         url = self.base_url + "repos/%s/%s/issues/%s" % (owner, repo, number)
         contents = self.patch(url, data_j = issue)
         return contents
+
+    def labels_repo(self, owner, repo):
+        url = self.base_url + "repos/%s/%s/labels" % (owner, repo)
+        contents = self.get_many(url)
+        return contents
+
+    def create_label_repo(self, owner, repo, label):
+        url = self.base_url + "repos/%s/%s/labels" % (owner, repo)
+        contents = self.post(url, data_j = label)
+        return contents
+
+    def update_label_repo(self, owner, repo, name, label):
+        url = self.base_url + "repos/%s/%s/labels/%s" % (owner, repo, name)
+        contents = self.patch(url, data_j = label)
+        return contents
+
+    def delete_label_repo(self, owner, repo, name, label):
+        url = self.base_url + "repos/%s/%s/labels/%s" % (owner, repo, name)
+        contents = self.delete(url)
+        return contents

@@ -10,7 +10,8 @@ Standard GitHub API implementation in python.
 | **GITHUB_PASSWORD** | `str` | `None` | The password to be used in the authentication with the GitHub API. |
 | **GITHUB_ID** | `str` | `None` | While using OAuth provides a way to define the client identifier. |
 | **GITHUB_SECRET** | `str` | `None` | While using OAuth provides a way to define the client secret. |
-| **GITHUB_REDIRECT_URL** | `str` | `None` |T o be used in the OAuth process as the target redirect URL. |
+| **GITHUB_REDIRECT_URL** | `str` | `None` | To be used in the OAuth process as the target redirect URL. |
+| **GITHUB_TOKEN** | `str` | `None` | If defined allows a statically generated OAuth Token to be used. |
 
 ## License
 
