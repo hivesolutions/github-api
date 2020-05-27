@@ -134,11 +134,15 @@ class RepoAPI(object):
         return contents
 
     def update_label_repo(self, owner, repo, name, label):
-        url = self.base_url + "repos/%s/%s/labels/%s" % (owner, repo, name)
+        url = self.base_url + "repos/%s/%s/labels/%s" % (
+            owner, repo, appier.legacy.quote(name)
+        )
         contents = self.patch(url, data_j = label)
         return contents
 
-    def delete_label_repo(self, owner, repo, name, label):
-        url = self.base_url + "repos/%s/%s/labels/%s" % (owner, repo, name)
+    def delete_label_repo(self, owner, repo, name):
+        url = self.base_url + "repos/%s/%s/labels/%s" % (
+            owner, repo, appier.legacy.quote(name)
+        )
         contents = self.delete(url)
         return contents
