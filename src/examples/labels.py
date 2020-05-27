@@ -136,10 +136,21 @@ LABELS = [
         name = "wontfix",
         description = "This will not be worked on",
         color = "ffffff"
+    ),
+    dict(
+        name = "unit-testing",
+        description = "Issue requires creation of unit tests",
+        color = "ff8242"
     )
 ]
 
-def ensure_labels(owner, repo, labels = LABELS):
+PROTECTED = [
+    "dior",
+    "sergio-rossi",
+    appier.legacy.u("hermès")
+]
+
+def ensure_labels(owner, repo, labels = LABELS, protected = PROTECTED, cleanup = True):
     api = base.get_api()
     _labels = api.labels_repo(owner, repo)
     _labels_m = dict((label["name"], label) for label in _labels)
@@ -154,6 +165,11 @@ def ensure_labels(owner, repo, labels = LABELS):
                 api.update_label_repo(owner, repo, name, label)
         else:
             api.create_label_repo(owner, repo, label)
+    if not cleanup: return
+    for name in appier.legacy.iterkeys(_labels_m):
+        if name in labels_m: continue
+        if name in protected: continue
+        api.delete_label_repo(owner, repo, name)
 
 if __name__ == "__main__":
     owner = appier.conf("OWNER", None)
