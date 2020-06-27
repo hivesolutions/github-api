@@ -108,9 +108,9 @@ LABELS = [
         color = "5619ff"
     ),
     dict(
-        name = "reward",
+        name = appier.legacy.u("reward 🏆️"),
         description = "There's a reward for whoever solves this issue",
-        color = "ef45e7"
+        color = "f9e1ac"
     ),
     dict(
         name = "risky",
@@ -141,6 +141,16 @@ LABELS = [
         name = "unit-testing",
         description = "Issue requires creation of unit tests",
         color = "ff8242"
+    ),
+    dict(
+        name = "expired",
+        description = "Issue has expired",
+        color = "808080"
+    ),
+    dict(
+        name = appier.legacy.u("reaper ☠️️"),
+        description = "Dropped issues due to aging or/and business value",
+        color = "000000"
     )
 ]
 
@@ -151,13 +161,32 @@ PROTECTED = [
 ]
 
 def ensure_labels(owner, repo, labels = LABELS, protected = PROTECTED, cleanup = True):
+    # prints a small information about the repository that
+    # is going to have its labels updated
+    print("Fixing %s/%s..." % (owner, repo))
+
+    # gathers the reference to the API object to be used in
+    # the remote calls that are gong to change the labels
     api = base.get_api()
+
+    # gathers the complete set of labels currently present in
+    # the repository, to compare them against the requested ones
     _labels = api.labels_repo(owner, repo)
-    _labels_m = dict((label["name"], label) for label in _labels)
-    labels_m = dict((label["name"], label) for label in labels)
-    for name, label in appier.legacy.iteritems(labels_m):
-        if name in _labels_m:
-            _label = _labels_m[name]
+
+    # adds the name prefix (name without emoji) to the label, effectively
+    # empowering it for a better comparison operation
+    for label in labels: label["prefix"] = label["name"].split(appier.legacy.u(" "), 1)[0]
+    for label in _labels: label["prefix"] = label["name"].split(appier.legacy.u(" "), 1)[0]
+
+    # builds both maps of labels indexing all of the labels by their
+    # prefix name (name without emoji)
+    _labels_m = dict((label["prefix"], label) for label in _labels)
+    labels_m = dict((label["prefix"], label) for label in labels)
+
+    for prefix, label in appier.legacy.iteritems(labels_m):
+        if prefix in _labels_m:
+            _label = _labels_m[prefix]
+            name = appier.legacy.bytes(_label["name"], encoding= "utf-8", force = True)
             is_equal = label["name"] == _label["name"] and\
                 label["description"] == _label["description"] and\
                 label["color"] == _label["color"]
@@ -165,10 +194,13 @@ def ensure_labels(owner, repo, labels = LABELS, protected = PROTECTED, cleanup =
                 api.update_label_repo(owner, repo, name, label)
         else:
             api.create_label_repo(owner, repo, label)
+
     if not cleanup: return
-    for name in appier.legacy.iterkeys(_labels_m):
-        if name in labels_m: continue
-        if name in protected: continue
+
+    for prefix, label in appier.legacy.iteritems(_labels_m):
+        if prefix in labels_m: continue
+        if prefix in protected: continue
+        name = appier.legacy.bytes(label["name"], encoding= "utf-8", force = True)
         api.delete_label_repo(owner, repo, name)
 
 if __name__ == "__main__":
