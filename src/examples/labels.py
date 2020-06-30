@@ -191,8 +191,11 @@ def ensure_labels(owner, repo, labels = LABELS, protected = PROTECTED, cleanup =
                 label["description"] == _label["description"] and\
                 label["color"] == _label["color"]
             if not is_equal:
+                print("Updating label %s..." % name)
                 api.update_label_repo(owner, repo, name, label)
         else:
+            name = appier.legacy.bytes(label["name"], encoding= "utf-8", force = True)
+            print("Creating label %s..." % name)
             api.create_label_repo(owner, repo, label)
 
     if not cleanup: return
@@ -201,6 +204,7 @@ def ensure_labels(owner, repo, labels = LABELS, protected = PROTECTED, cleanup =
         if prefix in labels_m: continue
         if prefix in protected: continue
         name = appier.legacy.bytes(label["name"], encoding= "utf-8", force = True)
+        print("Deleting label %s..." % name)
         api.delete_label_repo(owner, repo, name)
 
 if __name__ == "__main__":
