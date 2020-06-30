@@ -151,6 +151,11 @@ LABELS = [
         name = appier.legacy.u("reaper ☠️️"),
         description = "Dropped issues due to aging or/and business value",
         color = "000000"
+    ),
+    dict(
+        name = appier.legacy.u("due-diligence 🕵️‍♀️"),
+        description = "Issue under initial technical investigation",
+        color = "f2de85"
     )
 ]
 
