@@ -156,6 +156,11 @@ LABELS = [
         name = appier.legacy.u("due-diligence 🕵️‍♀️"),
         description = "Issue under initial technical investigation",
         color = "f2de85"
+    ),
+    dict(
+        name = appier.legacy.u("back-port 🔮"),
+        description = "Requires back-porting of functionality to other projects",
+        color = "22c99a"
     )
 ]
 
