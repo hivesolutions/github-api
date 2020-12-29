@@ -113,19 +113,37 @@ if __name__ == "__main__":
     owner = appier.conf("OWNER", None)
     repos = appier.conf("REPOS", [], cast = list)
     config_load = appier.conf("CONFIG_LOAD", False, cast = bool)
-    config_path = appier.conf("CONFIG_PATH", None)
-    config_load = config_load or bool(config_path)
-    labels = LABELS
-    protected = PROTECTED
+    config_paths = appier.conf("CONFIG_PATH", None, cast = list)
+    config_load = config_load or bool(config_paths)
+
     if config_load:
-        config = res_data("config.json", dir_path = config_path)
-        base_labels = res_data("labels/base.json", dir_path = config_path)
-        extra_labels = res_data("labels/extra.json", dir_path = config_path)
-        owner = config.get("owner", owner)
-        repos = config.get("repos", repos)
-        protected = config.get("protected", protected)
-        labels.extend(base_labels)
-        labels.extend(extra_labels)
-    for repo in repos: ensure_labels(owner, repo)
+        for config_path in (config_paths or []):
+            labels = list(LABELS)
+            protected = list(PROTECTED)
+            config = res_data("config.json", dir_path = config_path)
+            owner = config.get("owner", owner)
+            repos = config.get("repos", repos)
+            protected = config.get("protected", protected)
+            labels_paths = config.get("labels", [])
+            for labels_path in labels_paths:
+                labels_file = res_data(labels_path, dir_path = config_path)
+                labels.extend(labels_file)
+            for repo in repos:
+                ensure_labels(
+                    owner,
+                    repo,
+                    labels = labels,
+                    protected = protected
+                )
+    else:
+        labels = list(LABELS)
+        protected = list(PROTECTED)
+        for repo in repos:
+            ensure_labels(
+                owner,
+                repo,
+                labels = labels,
+                protected = protected
+            )
 else:
     __path__ = []
