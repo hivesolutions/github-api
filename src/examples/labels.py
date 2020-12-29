@@ -121,6 +121,7 @@ if __name__ == "__main__":
         config = res_data("config.json", dir_path = config_path)
         base_labels = res_data("labels/base.json", dir_path = config_path)
         extra_labels = res_data("labels/extra.json", dir_path = config_path)
+        owner = config.get("owner", owner)
         repos = config.get("repos", repos)
         protected = config.get("protected", protected)
         labels.extend(base_labels)
