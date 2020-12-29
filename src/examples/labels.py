@@ -37,138 +37,18 @@ __copyright__ = "Copyright (c) 2008-2020 Hive Solutions Lda."
 __license__ = "Apache License, Version 2.0"
 """ The license for the module """
 
+import os
+import json
+
 import appier
 
-from . import base
+import base
 
-LABELS = [
-    dict(
-        name = "bug",
-        description = "Something isn't working",
-        color = "d73a4a"
-    ),
-    dict(
-        name = "cant-repro",
-        description = "Issue is not reproducible",
-        color = "ffa500"
-    ),
-    dict(
-        name = "client",
-        description = "Issue was created or influenced by client",
-        color = "73bace"
-    ),
-    dict(
-        name = "design",
-        description = "Requires design to be done",
-        color = "c7a4f2"
-    ),
-    dict(
-        name = "documentation",
-        description = "Issue requires new documentation",
-        color = "6da0ff"
-    ),
-    dict(
-        name = "enhancement",
-        description = "New feature or request",
-        color = "a2eeef"
-    ),
-    dict(
-        name = "fast-track",
-        description = "Feature to be fixed or implemented ASAP",
-        color = "c61193"
-    ),
-    dict(
-        name = "p-high",
-        description = "High priority issue",
-        color = "d73a4a"
-    ),
-    dict(
-        name = "p-low",
-        description = "Low priority issue",
-        color = "42e5a9"
-    ),
-    dict(
-        name = "p-medium",
-        description = "Medium priority issue",
-        color = "dd9d11"
-    ),
-    dict(
-        name = "poc",
-        description = "Issue is a Proof of Concept",
-        color = "bfd4f2"
-    ),
-    dict(
-        name = "project",
-        description = "Issue represents a project",
-        color = "50e582"
-    ),
-    dict(
-        name = "regression",
-        description = "Issue is related to a regression in behaviour",
-        color = "5619ff"
-    ),
-    dict(
-        name = appier.legacy.u("reward 🏆️"),
-        description = "There's a reward for whoever solves this issue",
-        color = "f9e1ac"
-    ),
-    dict(
-        name = "risky",
-        description = "Seems to be risky",
-        color = "d73a4a"
-    ),
-    dict(
-        name = "talk",
-        description = "Requires verbal communication",
-        color = "fc88b6"
-    ),
-    dict(
-        name = "triage",
-        description = "Issue currently under triage",
-        color = "e8cb5a"
-    ),
-    dict(
-        name = "user-story",
-        description = "Issue represents a user story",
-        color = "f9f261"
-    ),
-    dict(
-        name = "wontfix",
-        description = "This will not be worked on",
-        color = "ffffff"
-    ),
-    dict(
-        name = "unit-testing",
-        description = "Issue requires creation of unit tests",
-        color = "ff8242"
-    ),
-    dict(
-        name = "expired",
-        description = "Issue has expired",
-        color = "808080"
-    ),
-    dict(
-        name = appier.legacy.u("reaper ☠️️"),
-        description = "Dropped issues due to aging or/and business value",
-        color = "000000"
-    ),
-    dict(
-        name = appier.legacy.u("due-diligence 🕵️‍♀️"),
-        description = "Issue under initial technical investigation",
-        color = "f2de85"
-    ),
-    dict(
-        name = appier.legacy.u("back-port 🔮"),
-        description = "Requires back-porting of functionality to other projects",
-        color = "22c99a"
-    )
-]
+LABELS = []
 
-PROTECTED = [
-    "dior",
-    "sergio-rossi",
-    appier.legacy.u("hermès")
-]
+PROTECTED = []
+
+REPOS = []
 
 def ensure_labels(owner, repo, labels = LABELS, protected = PROTECTED, cleanup = True):
     # prints a small information about the repository that
@@ -217,9 +97,34 @@ def ensure_labels(owner, repo, labels = LABELS, protected = PROTECTED, cleanup =
         print("Deleting label %s..." % name)
         api.delete_label_repo(owner, repo, name)
 
+def res_data(name, dir_path = None):
+    if dir_path == None:
+        base_path = os.path.dirname(os.path.abspath(__file__))
+        dir_path = os.path.join(base_path, "res")
+    file_path = os.path.join(dir_path, name)
+    file = open(file_path, "rb")
+    try: data = file.read()
+    finally: file.close()
+    if appier.legacy.is_bytes(data): data = data.decode("utf-8")
+    data_j = json.loads(data)
+    return data_j
+
 if __name__ == "__main__":
     owner = appier.conf("OWNER", None)
     repos = appier.conf("REPOS", [], cast = list)
+    config_load = appier.conf("CONFIG_LOAD", False, cast = bool)
+    config_path = appier.conf("CONFIG_PATH", None)
+    config_load = config_load or bool(config_path)
+    labels = LABELS
+    protected = PROTECTED
+    if config_load:
+        config = res_data("config.json", dir_path = config_path)
+        base_labels = res_data("labels/base.json", dir_path = config_path)
+        extra_labels = res_data("labels/extra.json", dir_path = config_path)
+        repos = config.get("repos", repos)
+        protected = config.get("protected", protected)
+        labels.extend(base_labels)
+        labels.extend(extra_labels)
     for repo in repos: ensure_labels(owner, repo)
 else:
     __path__ = []
