@@ -24,12 +24,3 @@ install:
   - if [[ $TRAVIS_PYTHON_VERSION != pypy* ]]; then pip install coveralls; fi
 script: if [[ $TRAVIS_PYTHON_VERSION != pypy* ]]; then coverage run --source=github setup.py test; else python setup.py test; fi
 after_success: if [[ $TRAVIS_PYTHON_VERSION != pypy* ]]; then coveralls; fi
-deploy:
-  provider: pypi
-  user: joamag
-  password:
-    secure: crm8Cd9Kjtf961eQ4kNPwhcxj5Qf2b++xFmdgLcHzvsic1GdD/e+/P5ScUiamVJm9/yXF/VRCy+7wOilx5REXJqQQz6DBO5nQH3lIr7jjV7luAJts534S0Bc1N8dVhmLldI08VJpJJ2+EY9AVXOpwldYBvDStKY4SL3Ril/Cr3Y=
-  distributions: sdist bdist_wheel
-  on:
-    tags: true
-    python: "2.7"
