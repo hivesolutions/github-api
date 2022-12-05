@@ -5,4 +5,4 @@ session.shelve*
 
 /dist
 /build
-/src/github-api-python.egg-info
+/src/github_api-python.egg-info
