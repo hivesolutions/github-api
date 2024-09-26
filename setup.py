@@ -33,7 +33,7 @@ import setuptools
 
 setuptools.setup(
     name="github-api-python",
-    version="0.2.2",
+    version="0.3.0",
     author="Hive Solutions Lda.",
     author_email="development@hive.pt",
     description="GitHub API Client",

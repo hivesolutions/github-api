@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-* Support for custom commit with multiple files
+*
 
 ### Changed
 
@@ -18,3 +18,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 *
+
+## [0.3.0] - 2024-09-26
+
+### Added
+
+* Support for custom commit with multiple files
+
+### Changed
+
+* Code structure to support black
