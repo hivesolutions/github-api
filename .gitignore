@@ -3,6 +3,8 @@
 
 session.shelve*
 
+/.venv
+
 /dist
 /build
 /src/github_api-python.egg-info

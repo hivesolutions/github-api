@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Hive GitHub API
-# Copyright (c) 2008-2020 Hive Solutions Lda.
+# Copyright (c) 2008-2024 Hive Solutions Lda.
 #
 # This file is part of Hive GitHub API.
 #
@@ -22,16 +22,7 @@
 __author__ = "João Magalhães <joamag@hive.pt>"
 """ The author(s) of the module """
 
-__version__ = "1.0.0"
-""" The version of the module """
-
-__revision__ = "$LastChangedRevision$"
-""" The revision number of the module """
-
-__date__ = "$LastChangedDate$"
-""" The last change date of the module """
-
-__copyright__ = "Copyright (c) 2008-2020 Hive Solutions Lda."
+__copyright__ = "Copyright (c) 2008-2024 Hive Solutions Lda."
 """ The copyright for the module """
 
 __license__ = "Apache License, Version 2.0"
@@ -50,7 +41,8 @@ PROTECTED = []
 
 REPOS = []
 
-def ensure_labels(owner, repo, labels = LABELS, protected = PROTECTED, cleanup = True):
+
+def ensure_labels(owner, repo, labels=LABELS, protected=PROTECTED, cleanup=True):
     # prints a small information about the repository that
     # is going to have its labels updated
     print("Fixing %s/%s..." % (owner, repo))
@@ -65,8 +57,10 @@ def ensure_labels(owner, repo, labels = LABELS, protected = PROTECTED, cleanup =
 
     # adds the name prefix (name without emoji) to the label, effectively
     # empowering it for a better comparison operation
-    for label in labels: label["prefix"] = label["name"].split(appier.legacy.u(" "), 1)[0]
-    for label in _labels: label["prefix"] = label["name"].split(appier.legacy.u(" "), 1)[0]
+    for label in labels:
+        label["prefix"] = label["name"].split(appier.legacy.u(" "), 1)[0]
+    for label in _labels:
+        label["prefix"] = label["name"].split(appier.legacy.u(" "), 1)[0]
 
     # builds both maps of labels indexing all of the labels by their
     # prefix name (name without emoji)
@@ -76,74 +70,74 @@ def ensure_labels(owner, repo, labels = LABELS, protected = PROTECTED, cleanup =
     for prefix, label in appier.legacy.iteritems(labels_m):
         if prefix in _labels_m:
             _label = _labels_m[prefix]
-            name = appier.legacy.bytes(_label["name"], encoding= "utf-8", force = True)
-            is_equal = label["name"] == _label["name"] and\
-                label["description"] == _label["description"] and\
-                label["color"] == _label["color"]
+            name = appier.legacy.bytes(_label["name"], encoding="utf-8", force=True)
+            is_equal = (
+                label["name"] == _label["name"]
+                and label["description"] == _label["description"]
+                and label["color"] == _label["color"]
+            )
             if not is_equal:
                 print("Updating label %s..." % name)
                 api.update_label_repo(owner, repo, name, label)
         else:
-            name = appier.legacy.bytes(label["name"], encoding= "utf-8", force = True)
+            name = appier.legacy.bytes(label["name"], encoding="utf-8", force=True)
             print("Creating label %s..." % name)
             api.create_label_repo(owner, repo, label)
 
-    if not cleanup: return
+    if not cleanup:
+        return
 
     for prefix, label in appier.legacy.iteritems(_labels_m):
-        if prefix in labels_m: continue
-        if prefix in protected: continue
-        name = appier.legacy.bytes(label["name"], encoding= "utf-8", force = True)
+        if prefix in labels_m:
+            continue
+        if prefix in protected:
+            continue
+        name = appier.legacy.bytes(label["name"], encoding="utf-8", force=True)
         print("Deleting label %s..." % name)
         api.delete_label_repo(owner, repo, name)
 
-def res_data(name, dir_path = None):
+
+def res_data(name, dir_path=None):
     if dir_path == None:
         base_path = os.path.dirname(os.path.abspath(__file__))
         dir_path = os.path.join(base_path, "res")
     file_path = os.path.join(dir_path, name)
     file = open(file_path, "rb")
-    try: data = file.read()
-    finally: file.close()
-    if appier.legacy.is_bytes(data): data = data.decode("utf-8")
+    try:
+        data = file.read()
+    finally:
+        file.close()
+    if appier.legacy.is_bytes(data):
+        data = data.decode("utf-8")
     data_j = json.loads(data)
     return data_j
 
+
 if __name__ == "__main__":
     owner = appier.conf("OWNER", None)
-    repos = appier.conf("REPOS", [], cast = list)
-    config_load = appier.conf("CONFIG_LOAD", False, cast = bool)
-    config_paths = appier.conf("CONFIG_PATH", None, cast = list)
+    repos = appier.conf("REPOS", [], cast=list)
+    config_load = appier.conf("CONFIG_LOAD", False, cast=bool)
+    config_paths = appier.conf("CONFIG_PATH", None, cast=list)
     config_load = config_load or bool(config_paths)
 
     if config_load:
-        for config_path in (config_paths or []):
+        for config_path in config_paths or []:
             labels = list(LABELS)
             protected = list(PROTECTED)
-            config = res_data("config.json", dir_path = config_path)
+            config = res_data("config.json", dir_path=config_path)
             owner = config.get("owner", owner)
             repos = config.get("repos", repos)
             protected = config.get("protected", protected)
             labels_paths = config.get("labels", [])
             for labels_path in labels_paths:
-                labels_file = res_data(labels_path, dir_path = config_path)
+                labels_file = res_data(labels_path, dir_path=config_path)
                 labels.extend(labels_file)
             for repo in repos:
-                ensure_labels(
-                    owner,
-                    repo,
-                    labels = labels,
-                    protected = protected
-                )
+                ensure_labels(owner, repo, labels=labels, protected=protected)
     else:
         labels = list(LABELS)
         protected = list(PROTECTED)
         for repo in repos:
-            ensure_labels(
-                owner,
-                repo,
-                labels = labels,
-                protected = protected
-            )
+            ensure_labels(owner, repo, labels=labels, protected=protected)
 else:
     __path__ = []

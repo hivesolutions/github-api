@@ -28,12 +28,10 @@ __copyright__ = "Copyright (c) 2008-2024 Hive Solutions Lda."
 __license__ = "Apache License, Version 2.0"
 """ The license for the module """
 
-from . import base
+import unittest
 
-if __name__ == "__main__":
-    api = base.get_api()
-    print(api.self_user())
-    print(api.get_user("joamag"))
-    print(len(api.repos_user("joamag")))
-else:
-    __path__ = []
+
+class BaseTest(unittest.TestCase):
+
+    def test_basic(self):
+        self.assertEqual(1 + 1, 2)

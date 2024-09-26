@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Hive GitHub API
-# Copyright (c) 2008-2020 Hive Solutions Lda.
+# Copyright (c) 2008-2024 Hive Solutions Lda.
 #
 # This file is part of Hive GitHub API.
 #
@@ -22,68 +22,88 @@
 __author__ = "Hugo Gomes <hugo@hugogomes.eu>"
 """ The author(s) of the module """
 
-__version__ = "1.0.0"
-""" The version of the module """
-
-__revision__ = "$LastChangedRevision$"
-""" The revision number of the module """
-
-__date__ = "$LastChangedDate$"
-""" The last change date of the module """
-
-__copyright__ = "Copyright (c) 2008-2020 Hive Solutions Lda."
+__copyright__ = "Copyright (c) 2008-2024 Hive Solutions Lda."
 """ The copyright for the module """
 
 __license__ = "Apache License, Version 2.0"
 """ The license for the module """
 
+
 class SearchAPI(object):
 
-    def repositories_search(self, query, text_match = False, *args, **kwargs):
+    def repositories_search(self, query, text_match=False, *args, **kwargs):
         url = self.base_url + "search/repositories"
-        kwargs.update(q = query)
-        headers = {} if not text_match else {"Accept": "application/vnd.github.v3.text-match+json"}
-        contents = self.get_many(url, headers = headers, **kwargs)
+        kwargs.update(q=query)
+        headers = (
+            {}
+            if not text_match
+            else {"Accept": "application/vnd.github.v3.text-match+json"}
+        )
+        contents = self.get_many(url, headers=headers, **kwargs)
         return contents
 
-    def commits_search(self, query, text_match = False, *args, **kwargs):
+    def commits_search(self, query, text_match=False, *args, **kwargs):
         url = self.base_url + "search/commits"
-        kwargs.update(q = query)
-        headers = {} if not text_match else {"Accept": "application/vnd.github.v3.text-match+json"}
-        contents = self.get_many(url, headers = headers, **kwargs)
+        kwargs.update(q=query)
+        headers = (
+            {}
+            if not text_match
+            else {"Accept": "application/vnd.github.v3.text-match+json"}
+        )
+        contents = self.get_many(url, headers=headers, **kwargs)
         return contents
 
-    def code_search(self, query, text_match = False, *args, **kwargs):
+    def code_search(self, query, text_match=False, *args, **kwargs):
         url = self.base_url + "search/code"
-        kwargs.update(q = query)
-        headers = {} if not text_match else {"Accept": "application/vnd.github.v3.full.text-match+json"}
-        contents = self.get_many(url, headers = headers, **kwargs)
+        kwargs.update(q=query)
+        headers = (
+            {}
+            if not text_match
+            else {"Accept": "application/vnd.github.v3.full.text-match+json"}
+        )
+        contents = self.get_many(url, headers=headers, **kwargs)
         return contents
 
-    def issues_search(self, query, text_match = False, *args, **kwargs):
+    def issues_search(self, query, text_match=False, *args, **kwargs):
         url = self.base_url + "search/issues"
-        kwargs.update(q = query)
-        headers = {} if not text_match else {"Accept": "application/vnd.github.v3.text-match+json"}
-        contents = self.get_many(url, headers = headers, **kwargs)
+        kwargs.update(q=query)
+        headers = (
+            {}
+            if not text_match
+            else {"Accept": "application/vnd.github.v3.text-match+json"}
+        )
+        contents = self.get_many(url, headers=headers, **kwargs)
         return contents
 
-    def users_search(self, query, text_match = False, *args, **kwargs):
+    def users_search(self, query, text_match=False, *args, **kwargs):
         url = self.base_url + "search/issues"
-        kwargs.update(q = query)
-        headers = {} if not text_match else {"Accept": "application/vnd.github.v3.text-match+json"}
-        contents = self.get_many(url, headers = headers, **kwargs)
+        kwargs.update(q=query)
+        headers = (
+            {}
+            if not text_match
+            else {"Accept": "application/vnd.github.v3.text-match+json"}
+        )
+        contents = self.get_many(url, headers=headers, **kwargs)
         return contents
 
-    def topics_search(self, query, text_match = False, *args, **kwargs):
+    def topics_search(self, query, text_match=False, *args, **kwargs):
         url = self.base_url + "search/topics"
-        kwargs.update(q = query)
-        headers = {} if not text_match else {"Accept": "application/vnd.github.v3.text-match+json"}
-        contents = self.get_many(url, headers = headers, **kwargs)
+        kwargs.update(q=query)
+        headers = (
+            {}
+            if not text_match
+            else {"Accept": "application/vnd.github.v3.text-match+json"}
+        )
+        contents = self.get_many(url, headers=headers, **kwargs)
         return contents
 
-    def labels_search(self, repository_id, query, text_match = False, *args, **kwargs):
+    def labels_search(self, repository_id, query, text_match=False, *args, **kwargs):
         url = self.base_url + "search/labels"
-        kwargs.update(dict(repository_id = repository_id, q = query))
-        headers = {} if not text_match else {"Accept": "application/vnd.github.v3.text-match+json"}
-        contents = self.get_many(url, headers = headers, **kwargs)
+        kwargs.update(dict(repository_id=repository_id, q=query))
+        headers = (
+            {}
+            if not text_match
+            else {"Accept": "application/vnd.github.v3.text-match+json"}
+        )
+        contents = self.get_many(url, headers=headers, **kwargs)
         return contents

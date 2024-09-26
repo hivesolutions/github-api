@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Hive GitHub API
-# Copyright (c) 2008-2020 Hive Solutions Lda.
+# Copyright (c) 2008-2024 Hive Solutions Lda.
 #
 # This file is part of Hive GitHub API.
 #
@@ -22,16 +22,7 @@
 __author__ = "João Magalhães <joamag@hive.pt>"
 """ The author(s) of the module """
 
-__version__ = "1.0.0"
-""" The version of the module """
-
-__revision__ = "$LastChangedRevision$"
-""" The revision number of the module """
-
-__date__ = "$LastChangedDate$"
-""" The last change date of the module """
-
-__copyright__ = "Copyright (c) 2008-2020 Hive Solutions Lda."
+__copyright__ = "Copyright (c) 2008-2024 Hive Solutions Lda."
 """ The copyright for the module """
 
 __license__ = "Apache License, Version 2.0"
@@ -52,11 +43,10 @@ API_DOMAIN = "api.github.com"
 will be performed, this value will be used for the construction
 of the base URL that is going to be used by the API """
 
-SCOPE = (
-    "user:email",
-)
+SCOPE = ("user:email",)
 """ The list of permissions to be used to create the
 scope string for the OAuth value """
+
 
 class API(
     appier.OAuth2API,
@@ -90,32 +80,37 @@ class API(
         page = 1
         result = []
         while True:
-            items = self.get(url, page = page, **kwargs)
-            if isinstance(items, dict): items = items["items"]
-            if not items: break
+            items = self.get(url, page=page, **kwargs)
+            if isinstance(items, dict):
+                items = items["items"]
+            if not items:
+                break
             result.extend(items)
             page += 1
         return result
 
-    def get_cached(self, url, retries = 5, sleep = 1.0, **kwargs):
+    def get_cached(self, url, retries=5, sleep=1.0, **kwargs):
         while True:
             retries -= 1
-            contents, file = self.get(url, handle = True, **kwargs)
+            contents, file = self.get(url, handle=True, **kwargs)
             code = file.getcode()
-            if not code == 202: break
-            if not retries > 0: break
+            if not code == 202:
+                break
+            if not retries > 0:
+                break
             time.sleep(sleep)
         return contents
 
-    def oauth_authorize(self, state = None):
+    def oauth_authorize(self, state=None):
         url = self.login_url + "oauth/authorize"
         values = dict(
-            client_id = self.client_id,
-            redirect_uri = self.redirect_url,
-            response_type = "code",
-            scope = " ".join(self.scope)
+            client_id=self.client_id,
+            redirect_uri=self.redirect_url,
+            response_type="code",
+            scope=" ".join(self.scope),
         )
-        if state: values["state"] = state
+        if state:
+            values["state"] = state
         data = appier.legacy.urlencode(values)
         url = url + "?" + data
         return url
@@ -124,13 +119,13 @@ class API(
         url = self.login_url + "oauth/access_token"
         contents = self.post(
             url,
-            auth = False,
-            token = False,
-            client_id = self.client_id,
-            client_secret = self.client_secret,
-            grant_type = "authorization_code",
-            redirect_uri = self.redirect_url,
-            code = code
+            auth=False,
+            token=False,
+            client_id=self.client_id,
+            client_secret=self.client_secret,
+            grant_type="authorization_code",
+            redirect_uri=self.redirect_url,
+            code=code,
         )
         contents = contents.decode("utf-8")
         contents = appier.legacy.parse_qs(contents)
@@ -139,19 +134,20 @@ class API(
         return self.access_token
 
     def _build_url(self):
-        if self.is_oauth(): self.base_url = "https://%s/" % API_DOMAIN; return
+        if self.is_oauth():
+            self.base_url = "https://%s/" % API_DOMAIN
+            return
         if not self.username:
-            raise appier.OperationalError(message = "No username provided")
+            raise appier.OperationalError(message="No username provided")
         if not self.password:
-            raise appier.OperationalError(message = "No password provided")
-        self.base_url = "https://%s:%s@%s/" % (
-            self.username,
-            self.password,
-            API_DOMAIN
-        )
+            raise appier.OperationalError(message="No password provided")
+        self.base_url = "https://%s:%s@%s/" % (self.username, self.password, API_DOMAIN)
 
     def _get_mode(self):
-        if self.username and self.password: return appier.OAuthAPI.DIRECT_MODE
-        elif self.client_id and self.client_secret: return appier.OAuthAPI.OAUTH_MODE
-        elif self.access_token: return appier.OAuthAPI.OAUTH_MODE
+        if self.username and self.password:
+            return appier.OAuthAPI.DIRECT_MODE
+        elif self.client_id and self.client_secret:
+            return appier.OAuthAPI.OAUTH_MODE
+        elif self.access_token:
+            return appier.OAuthAPI.OAUTH_MODE
         return appier.OAuthAPI.UNSET_MODE

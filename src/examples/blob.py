@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Hive GitHub API
-# Copyright (c) 2008-2020 Hive Solutions Lda.
+# Copyright (c) 2008-2024 Hive Solutions Lda.
 #
 # This file is part of Hive GitHub API.
 #
@@ -22,16 +22,7 @@
 __author__ = "João Magalhães <joamag@hive.pt> & Hugo Gomes <hugo@hugogomes.eu>"
 """ The author(s) of the module """
 
-__version__ = "1.0.0"
-""" The version of the module """
-
-__revision__ = "$LastChangedRevision$"
-""" The revision number of the module """
-
-__date__ = "$LastChangedDate$"
-""" The last change date of the module """
-
-__copyright__ = "Copyright (c) 2008-2020 Hive Solutions Lda."
+__copyright__ = "Copyright (c) 2008-2024 Hive Solutions Lda."
 """ The copyright for the module """
 
 __license__ = "Apache License, Version 2.0"
@@ -41,6 +32,10 @@ from . import base
 
 if __name__ == "__main__":
     api = base.get_api()
-    print(api.blobs_data("hivesolutions", "appier", "fe0c75cd7960bf177d2ed6aa478e188ee7a2db85"))
+    print(
+        api.blobs_data(
+            "hivesolutions", "appier", "fe0c75cd7960bf177d2ed6aa478e188ee7a2db85"
+        )
+    )
 else:
     __path__ = []
