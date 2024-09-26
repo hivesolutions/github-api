@@ -28,10 +28,22 @@ __copyright__ = "Copyright (c) 2008-2024 Hive Solutions Lda."
 __license__ = "Apache License, Version 2.0"
 """ The license for the module """
 
+import base64
+
+import appier
+
 
 class BLOBAPI(object):
 
     def blobs_data(self, owner, repo, file_sha):
         url = self.base_url + "repos/%s/%s/git/blobs/%s" % (owner, repo, file_sha)
         contents = self.get_cached(url)
+        return contents
+
+    def create_blob(self, owner, repo, content):
+        url = self.base_url + "repos/%s/%s/git/blobs" % (owner, repo)
+        content = appier.legacy.bytes(content)
+        content_b64 = base64.b64encode(content)
+        content_b64 = appier.legacy.str(content_b64)
+        contents = self.post(url, data_j=dict(content=content_b64, encoding="base64"))
         return contents

@@ -19,7 +19,7 @@
 # You should have received a copy of the Apache License along with
 # Hive GitHub API. If not, see <http://www.apache.org/licenses/>.
 
-__author__ = "João Magalhães <joamag@hive.pt>"
+__author__ = "João Magalhães <joamag@hive.pt> & Hugo Gomes <hugo@hugogomes.eu>"
 """ The author(s) of the module """
 
 __copyright__ = "Copyright (c) 2008-2024 Hive Solutions Lda."
@@ -28,17 +28,23 @@ __copyright__ = "Copyright (c) 2008-2024 Hive Solutions Lda."
 __license__ = "Apache License, Version 2.0"
 """ The license for the module """
 
+import base64
+
 import appier
 
-import github
 
+class TreeAPI(object):
 
-def get_api():
-    return github.API(
-        username=appier.conf("GITHUB_USERNAME"),
-        password=appier.conf("GITHUB_PASSWORD"),
-        client_id=appier.conf("GITHUB_ID"),
-        client_secret=appier.conf("GITHUB_SECRET"),
-        redirect_url=appier.conf("GITHUB_REDIRECT_URL"),
-        access_token=appier.conf("GITHUB_TOKEN"),
-    )
+    def create_tree(self, owner, repo, base_tree_sha, files=[]):
+        url = self.base_url + "repos/%s/%s/git/trees" % (owner, repo)
+        tree = [
+            dict(
+                path=file["path"],
+                sha=file["sha"],
+                mode=file.get("mode", "100644"),
+                type="blob",
+            )
+            for file in files
+        ]
+        contents = self.post(url, data_j=dict(base_tree=base_tree_sha, tree=tree))
+        return contents

@@ -3,6 +3,7 @@
 
 session.shelve*
 
+/.env
 /.venv
 
 /dist
