@@ -60,9 +60,9 @@ class CommitAPI(object):
         contents = self.get(url)
         return contents
 
-    def set_branch_commit(self, owner, repo, commit_sha, branch="master"):
-        url = self.base_url + "repos/%s/%s/git/ref/heads/%s" % (owner, repo, branch)
-        contents = self.patch(url, data_j=dict(sha=commit_sha))
+    def set_branch_commit(self, owner, repo, commit_sha, branch="master", force=True):
+        url = self.base_url + "repos/%s/%s/git/refs/heads/%s" % (owner, repo, branch)
+        contents = self.patch(url, data_j=dict(sha=commit_sha, force=force))
         return contents
 
     def latest_commit_sha(self, owner, repo, branch="master"):
@@ -89,8 +89,8 @@ class CommitAPI(object):
                 }
             )
 
-        tree_sha = self.create_tree(owner, repo, base_tree_sha, files=files_tree)
-        commit = self.create_commit(owner, repo, parent_sha, tree_sha, message)
+        tree = self.create_tree(owner, repo, base_tree_sha, files=files_tree)
+        commit = self.create_commit(owner, repo, parent_sha, tree["sha"], message)
         self.set_branch_commit(owner, repo, commit["sha"], branch=branch)
 
         return commit
