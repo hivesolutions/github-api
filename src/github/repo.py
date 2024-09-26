@@ -70,7 +70,7 @@ class RepoAPI(object):
         owner,
         repo,
         path,
-        content,
+        contents,
         message=None,
         sha=None,
         branch=None,
@@ -78,7 +78,7 @@ class RepoAPI(object):
         author=None,
     ):
         message = message or "%s '%s' file" % ("Updated" if sha else "Created", path)
-        content = appier.legacy.bytes(content)
+        content = appier.legacy.bytes(contents)
         content_b64 = base64.b64encode(content)
         content_b64 = appier.legacy.str(content_b64)
         data_j = dict(message=message, content=content_b64)

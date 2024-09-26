@@ -34,8 +34,10 @@ import appier
 
 from . import blob
 from . import orgs
+from . import tree
 from . import repo
 from . import user
+from . import commit
 from . import search
 
 API_DOMAIN = "api.github.com"
@@ -52,8 +54,10 @@ class API(
     appier.OAuth2API,
     blob.BLOBAPI,
     orgs.OrgAPI,
+    tree.TreeAPI,
     repo.RepoAPI,
     user.UserAPI,
+    commit.CommitAPI,
     search.SearchAPI,
 ):
 

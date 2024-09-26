@@ -27,14 +27,18 @@ __license__ = "Apache License, Version 2.0"
 
 from . import base
 from . import blob
+from . import commit
 from . import orgs
 from . import repo
 from . import search
+from . import tree
 from . import user
 
 from .base import API_DOMAIN, SCOPE, API
 from .blob import BLOBAPI
+from .commit import CommitAPI
 from .orgs import OrgAPI
 from .repo import RepoAPI
 from .search import SearchAPI
+from .tree import TreeAPI
 from .user import UserAPI
